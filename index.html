@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АвтоОка — точки роста</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#23262B;
+    --bg-alt:#1B1D21;
+    --paper:#F3EEDF;
+    --paper-alt:#E9E1C9;
+    --ink:#211D17;
+    --ink-soft:#5C594D;
+    --on-dark:#EDE9DC;
+    --on-dark-soft:#A6A498;
+    --amber:#D98E2B;
+    --blue:#4A7691;
+    --brick:#AE4A32;
+    --line:rgba(33,29,23,0.15);
+    --line-dark:rgba(237,233,220,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--on-dark);
+    font-family:'PT Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'PT Serif', serif;
+    font-weight:700;
+    margin:0;
+    color:inherit;
+  }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+  .wrap{
+    max-width:840px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  .band{
+    padding:64px 0;
+  }
+  .band.dark{background:var(--bg);}
+  .band.dark-alt{background:var(--bg-alt);}
+  .band.paper{background:var(--paper); color:var(--ink);}
+
+  /* HERO */
+  .tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--amber);
+    margin-bottom:18px;
+    display:block;
+  }
+  .hero h1{
+    font-size:44px;
+    line-height:1.18;
+    max-width:11.5em;
+  }
+  .hero .lede{
+    margin-top:22px;
+    max-width:34em;
+    color:var(--on-dark-soft);
+    font-size:18px;
+  }
+  .tape{
+    margin-top:40px;
+    border-top:1px solid var(--line-dark);
+    border-bottom:1px solid var(--line-dark);
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .tape div{
+    flex:1 1 auto;
+    padding:16px 20px;
+    border-right:1px solid var(--line-dark);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--on-dark-soft);
+  }
+  .tape div:last-child{border-right:none;}
+  .tape strong{
+    display:block;
+    font-size:20px;
+    color:var(--on-dark);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+
+  /* AUDIT SECTION */
+  .paper h2{font-size:28px; max-width:16em;}
+  .paper .section-lede{
+    margin-top:14px;
+    max-width:32em;
+    color:var(--ink-soft);
+  }
+  .audit-grid{
+    margin-top:36px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .audit-item{
+    background:var(--paper);
+    padding:22px 24px;
+  }
+  .audit-item .ch{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--blue);
+    letter-spacing:0.02em;
+  }
+  .audit-item h3{
+    font-size:18px;
+    margin-top:8px;
+  }
+  .audit-item p{
+    margin:8px 0 0;
+    color:var(--ink-soft);
+    font-size:15px;
+  }
+
+  /* HYPOTHESES */
+  .dark-alt h2{font-size:28px; color:var(--on-dark);}
+  .dark-alt .section-lede{
+    margin-top:14px;
+    max-width:32em;
+    color:var(--on-dark-soft);
+  }
+  .hyp-list{margin-top:36px;}
+  .hyp{
+    border:1px solid var(--line-dark);
+    border-top:none;
+  }
+  .hyp:first-child{border-top:1px solid var(--line-dark);}
+  .hyp-head{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:20px 24px;
+    background:none;
+    border:none;
+    width:100%;
+    text-align:left;
+    color:inherit;
+    font-family:inherit;
+  }
+  .hyp-head .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    padding:5px 10px;
+    border:1px solid var(--amber);
+    color:var(--amber);
+    flex-shrink:0;
+  }
+  .hyp.rec .hyp-head .chip{
+    background:var(--amber);
+    color:var(--bg);
+  }
+  .hyp-head h3{
+    font-size:19px;
+    flex:1;
+    font-weight:700;
+    font-family:'PT Serif', serif;
+  }
+  .hyp-body{
+    max-height:none;
+    overflow:visible;
+  }
+  .hyp-body-in{
+    padding:0 24px 26px 24px;
+    color:var(--on-dark-soft);
+    max-width:36em;
+  }
+  .hyp-body-in .why{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line-dark);
+    font-size:15px;
+  }
+  .hyp-body-in .why b{color:var(--on-dark); font-weight:700;}
+  .mech-list{
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  .mech-list li{
+    padding-left:16px;
+    position:relative;
+    margin-top:10px;
+  }
+  .mech-list li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--amber);
+  }
+  .step0{
+    display:flex;
+    gap:28px;
+    align-items:flex-start;
+  }
+  .step0-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:64px;
+    font-weight:600;
+    color:var(--amber);
+    line-height:1;
+    flex-shrink:0;
+  }
+  @media (max-width:640px){
+    .step0{flex-direction:column; gap:12px;}
+    .step0-num{font-size:44px;}
+  }
+
+  /* TABLE */
+  .table-scroll{
+    margin-top:36px;
+    overflow-x:auto;
+    border:1px solid var(--line);
+  }
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:720px;
+    font-size:14.5px;
+  }
+  th{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.02em;
+    text-align:left;
+    padding:12px 16px;
+    background:var(--ink);
+    color:var(--paper);
+    font-weight:500;
+  }
+  td{
+    padding:14px 16px;
+    border-top:1px solid var(--line);
+    vertical-align:top;
+  }
+  tr:nth-child(even) td{background:var(--paper-alt);}
+  td.fact{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--brick);
+  }
+  td.src{font-weight:700;}
+  .table-note{
+    margin-top:20px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    border-left:2px solid var(--amber);
+    padding-left:16px;
+    max-width:32em;
+  }
+
+  /* DEEP DIVE */
+  .deep-grid{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  .deep-col h3{
+    font-size:15px;
+    font-family:'JetBrains Mono', monospace;
+    color:var(--amber);
+    font-weight:500;
+    margin-bottom:16px;
+    text-transform:none;
+  }
+  .deep-col ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  .deep-col li{
+    padding:10px 0;
+    border-top:1px solid var(--line-dark);
+    color:var(--on-dark-soft);
+    font-size:15px;
+  }
+  .deep-col li:last-child{border-bottom:1px solid var(--line-dark);}
+  .budget-num{
+    color:var(--on-dark);
+    font-family:'JetBrains Mono', monospace;
+    font-weight:600;
+  }
+
+  .steps{margin-top:44px;}
+  .step{
+    display:flex;
+    gap:22px;
+    border-top:1px solid var(--line-dark);
+    padding:18px 0;
+  }
+  .step:last-child{border-bottom:1px solid var(--line-dark);}
+  .step .num{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--blue);
+    flex-shrink:0;
+    width:64px;
+    font-size:13px;
+    padding-top:2px;
+  }
+  .step .body{flex:1;}
+  .step h4{
+    margin:0;
+    font-family:'PT Serif', serif;
+    font-size:17px;
+    font-weight:700;
+  }
+  .step p{
+    margin:10px 0 0;
+    color:var(--on-dark-soft);
+    font-size:15px;
+  }
+
+  .callout{
+    margin-top:44px;
+    border:1px solid var(--brick);
+    padding:22px 24px;
+    display:flex;
+    gap:20px;
+    align-items:baseline;
+  }
+  .callout .big{
+    font-family:'JetBrains Mono', monospace;
+    font-size:32px;
+    font-weight:600;
+    color:var(--brick);
+    flex-shrink:0;
+  }
+  .callout p{margin:0; color:var(--on-dark-soft); font-size:15px;}
+
+  footer{
+    padding:36px 0 48px;
+    text-align:left;
+  }
+  footer .wrap{
+    border-top:1px solid var(--line-dark);
+    padding-top:20px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--on-dark-soft);
+  }
+
+  @media (max-width:640px){
+    .hero h1{font-size:32px;}
+    .audit-grid{grid-template-columns:1fr;}
+    .deep-grid{grid-template-columns:1fr;}
+    .tape div{flex:1 1 45%;}
+    .band{padding:48px 0;}
+  }
+</style>
+</head>
+<body>
+
+<section class="band dark hero">
+  <div class="wrap">
+    <span class="tag">skzicard.ru — автоока · заметка о точках роста</span>
+    <h1>Где брать рост, когда контекст и Авито уже настроены</h1>
+    <p class="lede">Три гипотезы роста, разбор фактов по рынку и план теста на ближайшие полтора месяца — прежде чем добавлять новые каналы, сначала смотрим, что ещё не выжато в текущих.</p>
+    <div class="tape">
+      <div><strong>~7%</strong>доля рынка</div>
+      <div><strong>400 000+</strong>карт выдано с 2012 года</div>
+      <div><strong>500+</strong>городов присутствия</div>
+      <div><strong>4</strong>канала уже в работе: контекст, SEO, Авито, соцсети</div>
+    </div>
+  </div>
+</section>
+
+<section class="band dark-alt">
+  <div class="wrap">
+    <div class="step0">
+      <div>
+        <h2>Шаг номер ноль</h2>
+        <p class="section-lede">Настройка сквозной аналитики (Roistat) + колтрекинг для сбора точных данных по источникам заявок: CPL, CPO, ДРР и остальным метрикам маркетинга — без этого дальше идти нет смысла.</p>
+        <ul class="mech-list" style="margin-top:24px;">
+          <li>Понять источники заявок и звонков</li>
+          <li>Понять эталонные показатели — точка отсчёта для сравнения с результатами новых каналов</li>
+          <li>Связать весь маркетинг в одной точке оперативного управления</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band paper">
+  <div class="wrap">
+    <h2>Далее — аудит, а не гипотезы</h2>
+    <p class="section-lede">Прежде чем городить новые каналы, нужно ответить по каждому текущему на один вопрос: мы упёрлись в потолок или просто недокрутили?</p>
+    <div class="audit-grid">
+      <div class="audit-item">
+        <span class="ch">директолог</span>
+        <h3>Контекст</h3>
+        <p>Растёт ли CPL при увеличении бюджета, или ещё есть запас налить больше без роста цены лида? Все ли регионы покрыты?</p>
+      </div>
+      <div class="audit-item">
+        <span class="ch">seo</span>
+        <h3>Поисковый трафик</h3>
+        <p>Какие страницы реально приносят заявки, а не просто существуют технически? Сколько городов из 500+ без нормальной оптимизации?</p>
+      </div>
+      <div class="audit-item">
+        <span class="ch">авитолог</span>
+        <h3>Авито</h3>
+        <p>Сколько объявлений и в скольких городах, упирается ли авитолог в лимиты объявлений/бюджета или ведёт без экспериментов с форматами?</p>
+      </div>
+      <div class="audit-item">
+        <span class="ch">соцсети</span>
+        <h3>Соцсети</h3>
+        <p>Это канал продаж с трекингом заявок или просто присутствие для доверия? Есть ли там вообще воронка?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band dark-alt">
+  <div class="wrap">
+    <h2>Гипотезы роста</h2>
+    <p class="section-lede">Смотреть сюда — если аудит подтвердил, что текущие каналы либо упёрлись в потолок, либо уже эффективно выжаты.</p>
+    <div class="hyp-list">
+
+      <div class="hyp open rec">
+        <div class="hyp-head">
+          <span class="chip">база</span>
+          <h3>Реактивация базы: LTV и повторные продажи</h3>
+        </div>
+        <div class="hyp-body">
+          <div class="hyp-body-in">
+            <p>За 2012–2026 годы выдано 400 000+ карт. Карта СКЗИ действует ограниченный срок — обычно 3 года. Каждый месяц часть базы должна продлевать карту, но это происходит само по себе, без напоминаний. Заранее напоминая клиентам (SMS/WhatsApp/Telegram/звонок) за пару месяцев до истечения, можно получать продажи почти бесплатно — аудитория уже тёплая и знакомая с компанией.</p>
+            <p class="why"><b>Почему первая:</b> не нужно ни с кем договариваться, не нужен новый отдел продаж, всё в руках компании, результат видно за несколько дней.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hyp open">
+        <div class="hyp-head">
+          <span class="chip">b2b</span>
+          <h3>B2B и партнёрства через автопарки</h3>
+        </div>
+        <div class="hyp-body">
+          <div class="hyp-body-in">
+            <p>Вместо одного водителя за раз — выход на автопарки, транспортные компании, лизинговые компании грузовиков, автошколы категорий C/D/E. Один контракт с автопарком — сразу десятки карт плюс регулярные продления. Плюс партнёрства с теми, кто уже работает с этой аудиторией: топливные карты, СТО для грузовиков, страховые.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hyp open">
+        <div class="hyp-head">
+          <span class="chip">avitoads</span>
+          <h3>AvitoAds — реклама за пределами карточки</h3>
+        </div>
+        <div class="hyp-body">
+          <div class="hyp-body-in">
+            <ul class="mech-list">
+              <li>Таргетинг по карьерному профилю — показ по статусу занятости, опыту и профессии, не только по поисковому запросу</li>
+              <li>Свой сегмент аудитории — загрузить базу текущих клиентов и построить look-alike на похожих пользователей</li>
+              <li>Ретаргетинг — повторный показ тем, кто уже смотрел объявление о карте, но не оставил заявку</li>
+              <li>Показ в смежных категориях («Грузовики», «Спецтехника», «Вакансии — водитель») по городам присутствия</li>
+              <li>Бюджет на тест канала 50 000 ₽, смотрим цену лида и цену продажи, сравниваем с остальными каналами</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="hyp open">
+        <div class="hyp-head">
+          <span class="chip">вк реклама</span>
+          <h3>Таргетированная реклама ВКонтакте</h3>
+        </div>
+        <div class="hyp-body">
+          <div class="hyp-body-in">
+            <ul class="mech-list">
+              <li>Таргетинг на подписчиков сообществ — напрямую по пабликам дальнобойщиков, транспортных компаний и логистических форумов, а не по общим интересам</li>
+              <li>Динамический ретаргетинг по сегментам 30/60/90 дней до истечения карты — выгрузка из CRM в рекламный кабинет отдельными списками под каждый срок</li>
+              <li>Ретаргетинг по пикселю сайта — повторный показ тем, кто заходил на skzicard.ru, но не оставил заявку</li>
+              <li>Бюджет на тест канала 50 000 ₽, смотрим цену лида и цену продажи, сравниваем с остальными каналами</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="band dark-alt">
+  <div class="wrap">
+    <h2>Приоритет теста: реактивация базы</h2>
+    <p class="section-lede">Самая дешёвая и быстрая гипотеза — всё в руках компании, результат виден за несколько дней.</p>
+
+    <div class="deep-grid">
+      <div class="deep-col">
+        <h3>ресурсы</h3>
+        <ul>
+          <li>Выгрузка базы с датами выдачи и типом карты (СКЗИ/ЕСТР)</li>
+          <li>CRM или сервис рассылок для сегментации и цепочки касаний</li>
+          <li>1 маркетолог/CRM-менеджер на настройку, 1–2 дня</li>
+          <li>Существующие операторы для обзвона тёплых сегментов — без найма</li>
+        </ul>
+      </div>
+      <div class="deep-col">
+        <h3>бюджет теста</h3>
+        <ul>
+          <li>Рассылки на выборку <span class="budget-num">5 000–10 000</span> контактов</li>
+          <li>Звонки по самому ценному сегменту</li>
+          <li>Стимул к продлению: скидка 5–10% или подарок (чехол)</li>
+          <li>Итого: <span class="budget-num">10 000–15 000 ₽</span> (при условии обзвона штатным отделом продаж)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1–3 дни</div>
+        <div class="body">
+          <h4>Выгрузка и сегментация</h4>
+          <p>Сегментируем базу по дате истечения карты (30/60/90 дней), готовим тексты и цепочку касаний, настраиваем A/B.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4–9 дни</div>
+        <div class="body">
+          <h4>Рассылки и обзвон</h4>
+          <p>Запускаем цепочку по сегментам: с промокодом на продление и без, сравниваем каналы — SMS, Telegram-бот, звонок.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">10 день</div>
+        <div class="body">
+          <h4>Итоги</h4>
+          <p>Сводим конверсию, считаем CAC реактивации, сравниваем с CAC нового клиента из контекста и Авито.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="band dark-alt" style="border-top:1px solid var(--line-dark);">
+  <div class="wrap">
+    <h2>Второй приоритет: таргетированная реклама ВКонтакте</h2>
+    <p class="section-lede">Дешёвый и быстрый второй тест — базовая инфраструктура (CRM, пиксель, сквозная аналитика) к этому моменту уже настроена в шаге ноль.</p>
+
+    <div class="deep-grid">
+      <div class="deep-col">
+        <h3>ресурсы</h3>
+        <ul>
+          <li>Новый кабинет VK Рекламы (ads.vk.com)</li>
+          <li>Список пабликов дальнобойщиков и транспортных компаний для таргетинга по подписчикам</li>
+          <li>Выгрузка сегментов 30/60/90 дней из CRM для динамического ретаргетинга</li>
+          <li>Пиксель на сайте skzicard.ru для ретаргетинга посетителей</li>
+          <li>Таргетолог на настройку и ведение кампаний</li>
+        </ul>
+      </div>
+      <div class="deep-col">
+        <h3>бюджет теста</h3>
+        <ul>
+          <li>Медиабюджет: <span class="budget-num">50 000 ₽</span></li>
+          <li>Смотрим цену лида и цену продажи</li>
+          <li>Сравниваем с CPL/CPO остальных каналов</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1–3 дни</div>
+        <div class="body">
+          <h4>Настройка</h4>
+          <p>Собираем список пабликов, выгружаем сегменты из CRM, ставим пиксель, готовим креативы под три сегмента таргетинга.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4–7 дни</div>
+        <div class="body">
+          <h4>Запуск и оптимизация</h4>
+          <p>Крутим кампании по всем сегментам параллельно, следим за ценой лида по каждому, отключаем то, что не работает.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">8 день</div>
+        <div class="body">
+          <h4>Итоги</h4>
+          <p>Считаем CPL и CPO по каналу, сравниваем с контекстом и Авито, решаем — масштабировать бюджет или закрывать тест.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="band paper">
+  <div class="wrap" style="border-top:1px solid var(--line); color:var(--ink-soft);">
+    </div>
+</footer>
+
+</body>
+</html>
